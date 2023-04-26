@@ -58,23 +58,21 @@ void addPoly(Poly **poly1, Poly **poly2){
     Node *ip2 = p2->firstNode;
 
     resultPoly = (Poly*)malloc(sizeof(Poly));
-    // Node *resTemp = resultPoly->firstNode;
 
-    while(ip1->next != NULL || ip2->next != NULL){
+    while(ip1 != NULL && ip2 != NULL){
+        
         if(ip1->exp == ip2->exp){
             addPolyNode(&resultPoly, ip1->coeff+ip2->coeff, ip1->exp);
             ip1 = ip1->next;
             ip2 = ip2->next;
-        }
-
-        if(ip1->exp > ip2->exp){
+        }else if(ip1->exp > ip2->exp){
+            addPolyNode(&resultPoly, ip1->coeff, ip1->exp);
             ip1 = ip1->next;
 
-        } else if (ip1->exp < ip2->exp){
+        } else {
+            addPolyNode(&resultPoly, ip2->coeff, ip2->exp);
             ip2 = ip2->next;
         }
-
-        // resTemp = resTemp->next;
     }
 
     traverse(&resultPoly);
@@ -94,7 +92,7 @@ int main() {
     Poly *poly2 = (Poly*)malloc(sizeof(Poly));
     poly2->firstNode =NULL;
 
-    addPolyNode(&poly2, 4, 2);
+    addPolyNode(&poly2, 4, 3);
     addPolyNode(&poly2, 6, 1);
     addPolyNode(&poly2, 5, 0);
 
