@@ -15,6 +15,8 @@ struct poly {
     Node *lastNode;
 };
 
+Poly *resultPoly; 
+
 void addPolyNode(Poly **poly, int coeff, int exp){
     Poly *p = *poly;
 
@@ -55,21 +57,24 @@ void addPoly(Poly **poly1, Poly **poly2){
     Node *ip1 = p1->firstNode;
     Node *ip2 = p2->firstNode;
 
-    Poly *resultPoly = (Poly*)malloc(sizeof(Poly));
-    resultPoly->firstNode = NULL;
+    resultPoly = (Poly*)malloc(sizeof(Poly));
+    // Node *resTemp = resultPoly->firstNode;
 
-    while(ip1->next && ip2->next){
+    while(ip1->next != NULL || ip2->next != NULL){
         if(ip1->exp == ip2->exp){
             addPolyNode(&resultPoly, ip1->coeff+ip2->coeff, ip1->exp);
-            printf(" %dx^%d \n", resultPoly->firstNode->coeff, resultPoly->firstNode->exp);
+            ip1 = ip1->next;
+            ip2 = ip2->next;
         }
-        
+
         if(ip1->exp > ip2->exp){
             ip1 = ip1->next;
 
         } else if (ip1->exp < ip2->exp){
             ip2 = ip2->next;
         }
+
+        // resTemp = resTemp->next;
     }
 
     traverse(&resultPoly);
