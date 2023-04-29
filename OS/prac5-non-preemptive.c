@@ -6,8 +6,8 @@
 
 typedef struct processblock process_block;
 
-struct processblock
-{
+struct processblock{
+
     int arrival_time;
     int burst_time;
     int completion_time;
@@ -18,8 +18,7 @@ struct processblock
 
 process_block *head = NULL, *last;
 
-int size()
-{
+int size(){
     process_block *i = head;
     int len = 0;
     while (i != NULL)
@@ -48,8 +47,7 @@ void add_process_block_at_end(int at, int bt){
     }
 }
 
-void traverse()
-{
+void traverse(){
     process_block *i = head;
     printf("Process\t\tArrival Time\tBurst Time\tTurnaround Time\tCompletion Time\tWaiting Time\n");
     int p = 0;
@@ -92,10 +90,9 @@ void first_come_first_serve(process_block **pb){
     printf("Average Turnaround Time : %.3f\n", average_turn_around_time);
 }
 
+int main(){
 
-
-int main()
-{
+    printf("Algorithm : First Come First Serve\n");
     add_process_block_at_end(0, 3);
     add_process_block_at_end(1, 8);
     add_process_block_at_end(2, 9);

@@ -81,19 +81,14 @@ void round_robin(process_block **pb, int time_quantum){
 
     while (process != NULL) {
         // TODO : Apply round robin time quantum calculations
-        if (process->burst_time < time_quantum){
+        if (process->burst_time <= time_quantum){
             current_time = process->completion_time = current_time + process->burst_time;
         } else if (process->burst_time > time_quantum){ 
-            int compliment = process->burst_time - time_quantum;
-            current_time = process->completion_time = current_time + process->burst_time - compliment;
+            int complement = process->burst_time - time_quantum;
+            current_time = process->completion_time = current_time + time_quantum;
 
-            add_process_block_at_end(process->arrival_time, compliment);
-        } else if (process->burst_time == time_quantum) {
-            current_time = process->completion_time = current_time + process->burst_time;
-
+            add_process_block_at_end(process->arrival_time, complement);
         }
-
-        current_time = process->completion_time = current_time + process->burst_time;
 
         process->turn_around_time = process->completion_time - process->arrival_time;
         process->waiting_time = process->turn_around_time - process->burst_time;
@@ -117,7 +112,7 @@ int main(){
 
     printf("Algorithm : Round Robin\n");
     add_process_block_at_end(0, 3);
-    add_process_block_at_end(1, 8);
+    add_process_block_at_end(1, 5);
     add_process_block_at_end(2, 9);
     add_process_block_at_end(3, 4);
     add_process_block_at_end(4, 2);
