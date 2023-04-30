@@ -93,13 +93,11 @@ void first_come_first_serve(process_block **pb){
 int main(){
 
     printf("Algorithm : First Come First Serve\n");
+    add_process_block_at_end(0, 24);
     add_process_block_at_end(0, 3);
-    add_process_block_at_end(1, 8);
-    add_process_block_at_end(2, 9);
-    add_process_block_at_end(3, 4);
-    add_process_block_at_end(4, 2);
-    add_process_block_at_end(5, 1);
+    add_process_block_at_end(0, 3);
 
+    printf("Initial Number of Processes : %d\n", size());
     first_come_first_serve(&head);
     return 0;
 }

@@ -7,7 +7,7 @@
 typedef struct processblock process_block;
 
 struct processblock{
-
+    int process_id;
     int arrival_time;
     int burst_time;
     int completion_time;
@@ -17,6 +17,7 @@ struct processblock{
 };
 
 process_block *head = NULL, *last;
+
 int ini_num_processes = 0;
 
 int size(){
@@ -30,6 +31,23 @@ int size(){
     return len;
 }
 
+process_block* process_block_exist(process_block **pb){
+    process_block *p = *pb;
+    process_block *process = p;
+
+    process_block *i = head;
+
+    while(i != NULL) {
+        if (process->arrival_time == i->arrival_time && process->burst_time == i->burst_time){
+            return i;
+            break;
+        } 
+        i = i->next;
+    }
+    return NULL;
+}
+
+int process_count = 0;
 void add_process_block_at_end(int at, int bt){
     process_block *newprocess_block = (process_block *)malloc(sizeof(process_block));
     newprocess_block->arrival_time = at;
@@ -39,20 +57,39 @@ void add_process_block_at_end(int at, int bt){
         head = newprocess_block;
         head->next = NULL;
         last = head;
+        head->process_id = process_count++;;
     }
     else
     {
         last->next = newprocess_block;
         last = newprocess_block;
         newprocess_block->next = NULL;
+        newprocess_block->process_id = process_count++;
     }
 }
 
-void delete_first_process_block(){
-    process_block *p = head;
-    head = head->next;
-    free(p);
+void add_updated_process_block_at_end(process_block **pb, int burst_time){
+    process_block *p = *pb;
+    process_block *process = p; 
+    process_block *newprocess_block = (process_block *)malloc(sizeof(process_block));
+    newprocess_block->arrival_time = process->arrival_time;
+    newprocess_block->burst_time = burst_time;
+    if (head == NULL)
+    {
+        head = newprocess_block;
+        head->next = NULL;
+        last = head;
+        head->process_id = process->process_id;
+    }
+    else
+    {
+        last->next = newprocess_block;
+        last = newprocess_block;
+        newprocess_block->next = NULL;
+        newprocess_block->process_id = process->process_id;
+    }
 }
+
 
 void traverse(){
     
@@ -60,12 +97,11 @@ void traverse(){
     process_block *i = head;
     printf("Initial Number of Processes : %d\n", ini_num_processes);
 
-    printf("Process\t\tArrival Time\tBurst Time\tTurnaround Time\tCompletion Time\tWaiting Time\n");
+    printf("Process\t\tArrival Time\tBurst Time\tCompletion Time\tTurnaround Time\tWaiting Time\n");
     while (i != NULL)
     {
-        printf("P%d\t\t%d\t\t%d\t\t%d\t\t%d\t\t%d\n", p, i->arrival_time, i->burst_time, i->turn_around_time, i->completion_time, i->waiting_time);
+        printf("P%d\t\t%d\t\t%d\t\t%d\t\t%d\t\t%d\n", i->process_id, i->arrival_time, i->burst_time, i->completion_time, i->turn_around_time, i->waiting_time);
         i = i->next;
-        p++;
     }
     printf("\n");
 }
@@ -83,18 +119,19 @@ void round_robin(process_block **pb, int time_quantum){
         // TODO : Apply round robin time quantum calculations
         if (process->burst_time <= time_quantum){
             current_time = process->completion_time = current_time + process->burst_time;
+
         } else if (process->burst_time > time_quantum){ 
             int complement = process->burst_time - time_quantum;
             current_time = process->completion_time = current_time + time_quantum;
-
-            add_process_block_at_end(process->arrival_time, complement);
+            add_updated_process_block_at_end(&process, complement);
         }
 
-        process->turn_around_time = process->completion_time - process->arrival_time;
-        process->waiting_time = process->turn_around_time - process->burst_time;
-
-        average_waiting_time = average_waiting_time + process->waiting_time;
-        average_turn_around_time = average_turn_around_time + process->turn_around_time;
+        if(process->burst_time <= time_quantum){
+            process->turn_around_time = process->completion_time - process->arrival_time;
+            process->waiting_time = process->turn_around_time - process->burst_time;
+            average_waiting_time = average_waiting_time + process->waiting_time;
+            average_turn_around_time = average_turn_around_time + process->turn_around_time;
+        }
 
         process = process->next;
     }
@@ -111,16 +148,13 @@ void round_robin(process_block **pb, int time_quantum){
 int main(){
 
     printf("Algorithm : Round Robin\n");
+    add_process_block_at_end(0, 24);
     add_process_block_at_end(0, 3);
-    add_process_block_at_end(1, 5);
-    add_process_block_at_end(2, 9);
-    add_process_block_at_end(3, 4);
-    add_process_block_at_end(4, 2);
-    add_process_block_at_end(5, 1);
+    add_process_block_at_end(0, 3);
 
     ini_num_processes = size();
 
-    round_robin(&head, 5);
+    round_robin(&head, 4);
 
     return 0;
 }
