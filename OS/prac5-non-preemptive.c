@@ -99,5 +99,6 @@ int main(){
 
     printf("Initial Number of Processes : %d\n", size());
     first_come_first_serve(&head);
+    
     return 0;
 }
