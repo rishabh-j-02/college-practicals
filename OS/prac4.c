@@ -7,13 +7,13 @@ int m2[3][3] = {{1,2,3}, {4,5,6}, {7,8,9}};
 int row = 0;
 
 void* matMultiply(){
-    int i = row;
+    int i = row++;
     for(int j =0; j < 3; j++){
         for (int k = 0; k < 3; k++){
             m3[i][j] += m1[i][k] * m2[k][j];     
         }
     }
-    i++;
+    
 }
 
 void fillmat(int m[3][3], int val){
@@ -49,14 +49,15 @@ int main() {
     v = pthread_create(&th3, NULL, matMultiply(), (void *)p3);
     printf("%d\n", v);
 
-    v = pthread_join(th1, NULL);
-    printf("%d\n", v);
+    if (pthread_join(th1, NULL) != 0) {
+        perror("pthread_create() error");
+    }
 
-    v = pthread_join(th2, NULL);
-    printf("%d\n", v);
+    // v = pthread_join(th2, NULL);
+    // printf("%d\n", v);
 
-    v = pthread_join(th3, NULL);
-    printf("%d\n", v);
+    // v = pthread_join(th3, NULL);
+    // printf("%d\n", v);
 
     return 0;
 }

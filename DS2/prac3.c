@@ -73,8 +73,6 @@ void addPoly(Poly **poly1, Poly **poly2){
         } else if (ip1->exp < ip2->exp){
             ip2 = ip2->next;
         }
-
-        // resTemp = resTemp->next;
     }
 
     traverse(&resultPoly);
