@@ -1,11 +1,8 @@
 //FCFS algorithm
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <malloc.h>
-
 typedef struct processblock process_block;
-
 struct processblock{
 
     int arrival_time;

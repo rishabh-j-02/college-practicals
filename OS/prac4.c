@@ -4,9 +4,7 @@
 int m3[3][3];
 int m1[3][3] = {{1,2,3}, {4,5,6}, {7,8,9}};    
 int m2[3][3] = {{1,2,3}, {4,5,6}, {7,8,9}};
-
 int row = 0, col = 0;
-
 void* matMultiplyByRow(){
     int i = row++;
     for(int j =0; j < 3; j++){
@@ -15,7 +13,6 @@ void* matMultiplyByRow(){
         }
     }
 }
-
 void fillmat(int m[3][3], int val){
     for(int i = 0; i < 3; i++){
         for(int j = 0; j < 3; j++){
@@ -23,7 +20,6 @@ void fillmat(int m[3][3], int val){
         }
     }
 }
-
 void printMatrix(int m[3][3]){
     for(int i = 0; i < 3; i++){
         for(int j = 0; j < 3; j++){
@@ -33,13 +29,10 @@ void printMatrix(int m[3][3]){
     }
     printf("\n");
 }
-
 int main() {
-
     fillmat(m3, 0);
     
     pthread_t th1, th2, th3;
-    
     printf("thread 1\n");
     pthread_create(&th1, NULL, matMultiplyByRow, NULL);
     pthread_join(th1, NULL);
@@ -54,6 +47,5 @@ int main() {
     pthread_create(&th3, NULL, matMultiplyByRow, NULL);
     pthread_join(th3, NULL);
     printMatrix(m3);
-
     return 0;
 }
