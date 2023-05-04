@@ -8,8 +8,6 @@ struct treenode {
     tree_node *right;
 };
 
-tree_node *root = NULL;
-
 tree_node* insertLeftNode(tree_node **root, int data){
     tree_node *left = (tree_node*)malloc(sizeof(tree_node));
     tree_node *i = *root;
@@ -38,9 +36,11 @@ tree_node* create_node(int data) {
 }
 
 void preorder_traversal(tree_node **root){
-    if (root != NULL) {
+    
         tree_node *i = *root;
         tree_node *r = i;
+        
+        if (root != NULL) {
         printf("%d ", r->data);
         preorder_traversal(&r->left);
         preorder_traversal(&r->right);
@@ -67,7 +67,7 @@ void postorder_traversal(tree_node **root){
 
 int main() {
 
-    root = create_node(1);
+    tree_node *root = create_node(1);
     tree_node *left = insertLeftNode(&root, 2);
     tree_node *right = insertRightNode(&root, 3);
 
@@ -78,8 +78,8 @@ int main() {
     insertRightNode(&right, 7);
 
     preorder_traversal(&root);
-    inorder_traversal(&root);
-    postorder_traversal(&root);
+    // inorder_traversal(&root);
+    // postorder_traversal(&root);
 
     return 0;
 }
