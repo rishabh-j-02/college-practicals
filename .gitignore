@@ -1,0 +1,15 @@
+*.docx
+*.jpg
+*.jpeg
+*.exe
+*.class
+.vscode
+.Rproj.user
+DS2/prac*
+a.out
+*.RData
+*.pdf
+test.*
+*.csv
+*.txt
+prac*

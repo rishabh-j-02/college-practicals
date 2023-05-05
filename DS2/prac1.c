@@ -3,49 +3,54 @@
 typedef struct node Node;
 struct node
 {
-        int data;
+    int data;
     Node *next;
 };
 Node *head = NULL, *last;
-int size(){
-        Node *i = head;
+int size()
+{
+    Node *i = head;
     int len = 0;
     while (i != NULL)
     {
-            len++;
+        len++;
         i = i->next;
     }
     return len;
 }
-void addNodeAtStart(int data) {
-        Node *newNode = (Node*)malloc(sizeof(Node));
+void addNodeAtStart(int data)
+{
+    Node *newNode = (Node *)malloc(sizeof(Node));
     newNode->next = head;
     head = newNode;
     newNode->data = data;
 }
 void addNodeAtEnd(int data)
 {
-        Node *newNode = (Node *)malloc(sizeof(Node));
+    Node *newNode = (Node *)malloc(sizeof(Node));
     newNode->data = data;
     if (head == NULL)
     {
-            head = newNode;
+        head = newNode;
         head->next = NULL;
         last = head;
     }
     else
     {
-            last->next = newNode;
+        last->next = newNode;
         last = newNode;
         newNode->next = NULL;
     }
 }
-void addNodeAt(int index, int data){
-        if (index < 0){
-            return;
+void addNodeAt(int index, int data)
+{
+    if (index < 0)
+    {
+        return;
     }
-    if (index > size() - 1){
-            return;
+    if (index > size() - 1)
+    {
+        return;
     }
     Node *newNode = (Node *)malloc(sizeof(Node));
     newNode->data = data;
@@ -53,7 +58,7 @@ void addNodeAt(int index, int data){
     int i;
     for (i = 0; i < index; i++)
     {
-            prev = currNode;
+        prev = currNode;
         currNode = currNode->next;
     }
     newNode->next = currNode;
@@ -61,31 +66,37 @@ void addNodeAt(int index, int data){
 }
 void deleteAt(int index)
 {
-        if (index < 0){
-            return;
+    if (index < 0)
+    {
+        return;
     }
-    if (index > size() - 1){
-            return;
+    if (index > size() - 1)
+    {
+        return;
     }
     Node *currNode = head, *prev;
     int i;
-    for (i = 0; i < index; i++) {
-            prev = currNode;
+    for (i = 0; i < index; i++)
+    {
+        prev = currNode;
         currNode = currNode->next;
     }
     prev->next = currNode->next;
     free(currNode);
 }
-void deleteFirst(){
-        Node *temp = head;
+void deleteFirst()
+{
+    Node *temp = head;
     head = head->next;
     free(temp);
 }
-void deleteLast(){
-        Node *temp = head, *prev;
-    
-    while(temp->next != NULL){
-            prev = temp;
+void deleteLast()
+{
+    Node *temp = head, *prev;
+
+    while (temp->next != NULL)
+    {
+        prev = temp;
         temp = temp->next;
     }
     last = prev;
@@ -94,18 +105,18 @@ void deleteLast(){
 }
 void traverse(char message[])
 {
-        Node *i = head;
+    Node *i = head;
     printf("LL (%s) : ", message);
     while (i != NULL)
     {
-            printf("%d ", i->data);
+        printf("%d ", i->data);
         i = i->next;
     }
     printf("\n");
 }
 int main()
 {
-        addNodeAtEnd(1);
+    addNodeAtEnd(1);
     addNodeAtEnd(3);
     addNodeAtEnd(4);
     addNodeAtEnd(12);
