@@ -1,29 +1,23 @@
 #include <stdio.h>
 #include <malloc.h>
-
 typedef struct node Node;
 typedef struct poly Poly;
-
 struct node {
     int coeff;
     int exp;
     Node *next;
 };
-
 struct poly {
     Node *firstNode;
     Node *lastNode;
 };
 
 Poly *resultPoly; 
-
 void addPolyNode(Poly **poly, int coeff, int exp){
     Poly *p = *poly;
-
     Node *newNode = (Node*) malloc(sizeof(Node));
     newNode->coeff = coeff;
     newNode->exp = exp;
-
     if(p->firstNode == NULL){
         newNode->next = NULL;
         p->firstNode = newNode;
@@ -34,7 +28,6 @@ void addPolyNode(Poly **poly, int coeff, int exp){
         p->lastNode = newNode;
     }
 }
-
 void traverse(Poly **poly){
     Poly *p = *poly;
     Node *temp = p->firstNode;
@@ -49,7 +42,6 @@ void traverse(Poly **poly){
     }
     printf("\n");
 }
-
 void addPoly(Poly **poly1, Poly **poly2){
     Poly *p1 = *poly1;
     Poly *p2 = *poly2;
@@ -58,49 +50,41 @@ void addPoly(Poly **poly1, Poly **poly2){
     Node *ip2 = p2->firstNode;
 
     resultPoly = (Poly*)malloc(sizeof(Poly));
-    // Node *resTemp = resultPoly->firstNode;
 
-    while(ip1->next != NULL || ip2->next != NULL){
+    while(ip1 != NULL && ip2 != NULL){
+        
         if(ip1->exp == ip2->exp){
             addPolyNode(&resultPoly, ip1->coeff+ip2->coeff, ip1->exp);
             ip1 = ip1->next;
             ip2 = ip2->next;
-        }
-
-        if(ip1->exp > ip2->exp){
+        }else if(ip1->exp > ip2->exp){
+            addPolyNode(&resultPoly, ip1->coeff, ip1->exp);
             ip1 = ip1->next;
 
-        } else if (ip1->exp < ip2->exp){
+        } else {
+            addPolyNode(&resultPoly, ip2->coeff, ip2->exp);
             ip2 = ip2->next;
         }
-
-        // resTemp = resTemp->next;
     }
 
     traverse(&resultPoly);
 }
-
-int main() {
-    
+int main() {   
     Poly *poly1 = (Poly*)malloc(sizeof(Poly));
     poly1->firstNode =NULL;
-
     addPolyNode(&poly1, 3, 2);
     addPolyNode(&poly1, 2, 1);
     addPolyNode(&poly1, 1, 0);
-
     traverse(&poly1);
 
     Poly *poly2 = (Poly*)malloc(sizeof(Poly));
     poly2->firstNode =NULL;
-
     addPolyNode(&poly2, 4, 2);
     addPolyNode(&poly2, 6, 1);
     addPolyNode(&poly2, 5, 0);
 
     traverse(&poly2);
-
+    printf("Result : ");
     addPoly(&poly1, &poly2);
-
     return 0;
 }
